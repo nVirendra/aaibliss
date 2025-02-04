@@ -444,141 +444,171 @@ const HRDashboard = () => {
           isSidebarOpen ? 'mt-20 ml-64' : 'ml-20'
         } w-full p-2`}
       >
-        {/* Dashboard Cards */}
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {/* Attendance Overview Card */}
-          <div className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-200">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-xl font-semibold">Attendance Overview</h2>
-              <Users className="text-blue-500 w-8 h-8" />
+        {/* First Row: Upcoming Events and Announcements */}
+        <div className="grid gap-6 sm:grid-cols-1 lg:grid-cols-3">
+          {/* Left Side: Dashboard Cards */}
+          <div className="lg:col-span-2 grid gap-6 sm:grid-cols-2">
+            {/* Attendance Overview Card */}
+            <div className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-200 ">
+              <div className="flex items-center justify-between mb-4">
+                <h2 className="text-xl font-semibold">Attendance Overview</h2>
+                <Users className="text-blue-500 w-8 h-8" />
+              </div>
+              <div className="grid grid-cols-3 gap-4">
+                <div className="text-center">
+                  <h3 className="text-3xl font-bold text-green-600">85</h3>
+                  <p>Present</p>
+                </div>
+                <div className="text-center">
+                  <h3 className="text-3xl font-bold text-red-500">15</h3>
+                  <p>Absent</p>
+                </div>
+                <div className="text-center">
+                  <h3 className="text-3xl font-bold text-yellow-500">5</h3>
+                  <p>On Leave</p>
+                </div>
+              </div>
             </div>
-            <div className="grid grid-cols-3 gap-4">
-              <div className="text-center">
-                <h3 className="text-3xl font-bold text-green-600">85</h3>
-                <p>Present</p>
+
+            {/* Attendance Metrics Card */}
+            <div className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-200 max-h-[180px]">
+              <div className="flex items-center justify-between mb-4">
+                <h2 className="text-xl font-semibold">Attendance Metrics</h2>
+                <Clock className="text-blue-500 w-8 h-8" />
               </div>
-              <div className="text-center">
-                <h3 className="text-3xl font-bold text-red-500">15</h3>
-                <p>Absent</p>
+              <div className="grid grid-cols-3 gap-4">
+                <div className="text-center">
+                  <h3 className="text-3xl font-bold text-orange-500">12</h3>
+                  <p>Late Coming</p>
+                </div>
+                <div className="text-center">
+                  <h3 className="text-3xl font-bold text-pink-500">8</h3>
+                  <p>Early Exit</p>
+                </div>
+                <div className="text-center">
+                  <h3 className="text-3xl font-bold text-indigo-500">20</h3>
+                  <p>Overtime</p>
+                </div>
               </div>
-              <div className="text-center">
-                <h3 className="text-3xl font-bold text-yellow-500">5</h3>
-                <p>On Leave</p>
+            </div>
+
+            {/* Recruitment Overview Card */}
+            <div className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-200">
+              <div className="flex items-center justify-between mb-4">
+                <h2 className="text-xl font-semibold">Recruitment Overview</h2>
+                <Briefcase className="text-blue-500 w-8 h-8" />
               </div>
+              <div className="grid grid-cols-3 gap-4">
+                <div className="text-center">
+                  <h3 className="text-3xl font-bold text-green-600">120</h3>
+                  <p>Applicants</p>
+                </div>
+                <div className="text-center">
+                  <h3 className="text-3xl font-bold text-blue-500">45</h3>
+                  <p>On Process</p>
+                </div>
+                <div className="text-center">
+                  <h3 className="text-3xl font-bold text-purple-500">10</h3>
+                  <p>Total Vacancies</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Onboarding Card */}
+            <div className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-200">
+              <div className="flex items-center justify-between mb-4">
+                <h2 className="text-xl font-semibold">Onboarding Progress</h2>
+                <UserCheck className="text-teal-500 w-8 h-8" />
+              </div>
+              <p className="text-lg">Completed: 8/10</p>
+              <p className="text-lg">Pending: 2/10</p>
             </div>
           </div>
 
-          {/* Attendance Metrics Card */}
-          <div className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-200">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-xl font-semibold">Attendance Metrics</h2>
-              <Clock className="text-blue-500 w-8 h-8" />
-            </div>
-            <div className="grid grid-cols-3 gap-4">
-              <div className="text-center">
-                <h3 className="text-3xl font-bold text-orange-500">12</h3>
-                <p>Late Coming</p>
-              </div>
-              <div className="text-center">
-                <h3 className="text-3xl font-bold text-pink-500">8</h3>
-                <p>Early Exit</p>
-              </div>
-              <div className="text-center">
-                <h3 className="text-3xl font-bold text-indigo-500">20</h3>
-                <p>Overtime</p>
-              </div>
-            </div>
-          </div>
+          {/* Right Side: Upcoming Events and Announcements */}
+          <div className="lg:col-span-1 space-y-6">
+            {/* Upcoming Events */}
+            {/* <div className="bg-white p-6 rounded-xl shadow-lg max-h-[180px] overflow-y-auto">
+              <h2 className="text-xl font-semibold mb-4">Upcoming Events</h2>
+              <ul className="space-y-4">
+                {upcomingEvents.map((event, index) => (
+                  <li key={index} className="flex items-center">
+                    <Clock className="text-green-500 w-6 h-6 mr-4" />
+                    <div>
+                      <p className="text-lg">{event.event}</p>
+                      <p className="text-sm text-gray-600">{event.time}</p>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </div> */}
 
-          {/* Recruitment Overview Card */}
-          <div className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-200">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-xl font-semibold">Recruitment Overview</h2>
-              <Briefcase className="text-blue-500 w-8 h-8" />
-            </div>
-            <div className="grid grid-cols-3 gap-4">
-              <div className="text-center">
-                <h3 className="text-3xl font-bold text-green-600">120</h3>
-                <p>Applicants</p>
-              </div>
-              <div className="text-center">
-                <h3 className="text-3xl font-bold text-blue-500">45</h3>
-                <p>On Process</p>
-              </div>
-              <div className="text-center">
-                <h3 className="text-3xl font-bold text-purple-500">10</h3>
-                <p>Total Vacancies</p>
+            <div className="bg-white p-6 rounded-xl shadow-lg overflow-hidden relative max-h-[180px]">
+              <div className="animate-marquee hover:animation-paused">
+                <h2 className="text-xl font-semibold mb-4">Upcoming Events</h2>
+                <ul className="space-y-4">
+                  {upcomingEvents.map((event, index) => (
+                    <li key={index} className="flex items-center">
+                      <Clock className="text-green-500 w-6 h-6 mr-4" />
+                      <div>
+                        <p className="text-lg">{event.event}</p>
+                        <p className="text-sm text-gray-600">{event.time}</p>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
               </div>
             </div>
-          </div>
 
-          {/* Onboarding Card */}
-          <div className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-200">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-xl font-semibold">Onboarding Progress</h2>
-              <UserCheck className="text-teal-500 w-8 h-8" />
+            {/* Announcements */}
+            <div className="bg-white p-6 rounded-xl shadow-lg max-h-[180px] overflow-y-auto">
+              <h2 className="text-xl font-semibold mb-4">Announcements</h2>
+              <ul className="space-y-4">
+                {announcements.map((announcement, index) => (
+                  <li key={index} className="border-b pb-2">
+                    <p className="text-lg font-medium">{announcement.title}</p>
+                    <p className="text-gray-500 text-sm">{announcement.date}</p>
+                    <p className="text-gray-700 text-sm mt-1">
+                      {announcement.details}
+                    </p>
+                  </li>
+                ))}
+              </ul>
             </div>
-            <p className="text-lg">Completed: 8/10</p>
-            <p className="text-lg">Pending: 2/10</p>
-          </div>
-          {/* Payroll Summary Card */}
-          <div className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-200">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-xl font-semibold">Payroll Summary</h2>
-              <DollarSign className="text-purple-500 w-8 h-8" />
-            </div>
-            <p className="text-2xl font-bold">₹3,00,000</p>
-            <p className="text-gray-600">Processed: 85%</p>
-          </div>
-
-          {/* Travel Reimbursement Card */}
-          <div className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-200">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-xl font-semibold">Travel Reimbursement</h2>
-              <Plane className="text-teal-500 w-8 h-8" />
-            </div>
-            <p className="text-lg">Approved: ₹50,000</p>
-            <p className="text-lg">Pending: ₹10,000</p>
           </div>
         </div>
 
-        <div className="mt-4">
-          {/* Dashboard Charts */}
-          <div className="grid gap-6 sm:grid-cols-2">
-            {/* Pie Chart Container */}
-            <div className="bg-white p-6 rounded-xl shadow-lg">
-              <h2 className="text-xl font-semibold mb-4">
-                Employee Distribution
-              </h2>
-              <div className="w-full h-64">
-                {' '}
-                {/* Fixed height and width for the chart */}
-                <Pie
-                  data={pieChartData}
-                  options={{ maintainAspectRatio: false }}
-                />
-              </div>
+        {/* Second Row: Charts and Recent Activities */}
+        <div className="mt-6 grid gap-6 sm:grid-cols-2">
+          {/* Employee Distribution Chart */}
+          <div className="bg-white p-6 rounded-xl shadow-lg">
+            <h2 className="text-xl font-semibold mb-4">
+              Employee Distribution
+            </h2>
+            <div className="w-full h-64">
+              <Pie
+                data={pieChartData}
+                options={{ maintainAspectRatio: false }}
+              />
             </div>
+          </div>
 
-            {/* Bar Chart Container */}
-            <div className="bg-white p-6 rounded-xl shadow-lg">
-              <h2 className="text-xl font-semibold mb-4">
-                Department-wise Employee Count
-              </h2>
-              <div className="w-full h-64">
-                {' '}
-                {/* Fixed height and width for the chart */}
-                <Bar
-                  data={barChartData}
-                  options={{ maintainAspectRatio: false }}
-                />
-              </div>
+          {/* Department-wise Employee Count Chart */}
+          <div className="bg-white p-6 rounded-xl shadow-lg">
+            <h2 className="text-xl font-semibold mb-4">
+              Department-wise Employee Count
+            </h2>
+            <div className="w-full h-64">
+              <Bar
+                data={barChartData}
+                options={{ maintainAspectRatio: false }}
+              />
             </div>
           </div>
         </div>
 
-        {/* Recent Activities and Upcoming Events Section */}
-        <div className="mt-4 grid gap-6 sm:grid-cols-2">
+        {/* Third Row: Recent Activities and Pending Approvals */}
+        <div className="mt-6 grid gap-6 sm:grid-cols-2">
           {/* Recent Activities */}
           <div className="bg-white p-6 rounded-xl shadow-lg">
             <h2 className="text-xl font-semibold mb-4">Recent Activities</h2>
@@ -595,84 +625,38 @@ const HRDashboard = () => {
             </ul>
           </div>
 
-          {/* Upcoming Events */}
+          {/* Pending Approvals */}
           <div className="bg-white p-6 rounded-xl shadow-lg">
-            <h2 className="text-xl font-semibold mb-4">Upcoming Events</h2>
-            <ul className="space-y-4">
-              {upcomingEvents.map((event, index) => (
-                <li key={index} className="flex items-center">
-                  <Clock className="text-green-500 w-6 h-6 mr-4" />
-                  <div>
-                    <p className="text-lg">{event.event}</p>
-                    <p className="text-sm text-gray-600">{event.time}</p>
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-
-        {/* Pending Approvals Section */}
-        <div className="mt-6">
-          <div className="mt-4 grid gap-6 sm:grid-cols-2">
-            {/* Recent Activities */}
-            <div className="bg-white p-6 rounded-xl shadow-lg">
-              <h3 className="text-xl font-semibold mb-4">On Leave</h3>
-              <div className="overflow-x-auto max-h-72 overflow-y-auto">
-                <table className="w-full table-auto border-collapse">
-                  <thead className="sticky top-0 bg-blue-100 z-10">
-                    <tr className="bg-blue-100 text-gray-700 text-sm uppercase tracking-wide">
-                      <th className="py-3 px-4 text-left sticky top-0">
-                        Employee
-                      </th>
-                      <th className="py-3 px-4 text-left sticky top-0">Date</th>
-                      <th className="py-3 px-4 text-left sticky top-0">
-                        Status
-                      </th>
-                      <th className="py-3 px-4 text-left sticky top-0">
-                        Status
-                      </th>
-                      <th className="py-3 px-4 text-left sticky top-0">
-                        Status
-                      </th>
-                      <th className="py-3 px-4 text-left sticky top-0">
-                        Status
-                      </th>
-                      <th className="py-3 px-4 text-left sticky top-0">
-                        Status
-                      </th>
+            <h3 className="text-xl font-semibold mb-4">On Leave</h3>
+            <div className="overflow-x-auto max-h-72 overflow-y-auto">
+              <table className="w-full table-auto border-collapse">
+                <thead className="sticky top-0 bg-blue-100 z-10">
+                  <tr className="bg-blue-100 text-gray-700 text-sm uppercase tracking-wide">
+                    <th className="py-3 px-4 text-left sticky top-0">
+                      Employee
+                    </th>
+                    <th className="py-3 px-4 text-left sticky top-0">Date</th>
+                    <th className="py-3 px-4 text-left sticky top-0">Status</th>
+                    <th className="py-3 px-4 text-left sticky top-0">Status</th>
+                    <th className="py-3 px-4 text-left sticky top-0">Status</th>
+                    <th className="py-3 px-4 text-left sticky top-0">Status</th>
+                    <th className="py-3 px-4 text-left sticky top-0">Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {leaveApprovals.map((approval, index) => (
+                    <tr key={index} className="border-t hover:bg-gray-50">
+                      <td className="py-3 px-4">{approval.employee}</td>
+                      <td className="py-3 px-4">{approval.date}</td>
+                      <td className="py-3 px-4">{approval.status}</td>
+                      <td className="py-3 px-4">{approval.fname}</td>
+                      <td className="py-3 px-4">{approval.lname}</td>
+                      <td className="py-3 px-4">{approval.lname}</td>
+                      <td className="py-3 px-4">{approval.lname}</td>
                     </tr>
-                  </thead>
-                  <tbody>
-                    {leaveApprovals.map((approval, index) => (
-                      <tr key={index} className="border-t hover:bg-gray-50">
-                        <td className="py-3 px-4">{approval.employee}</td>
-                        <td className="py-3 px-4">{approval.date}</td>
-                        <td className="py-3 px-4">{approval.status}</td>
-                        <td className="py-3 px-4">{approval.fname}</td>
-                        <td className="py-3 px-4">{approval.lname}</td>
-                        <td className="py-3 px-4">{approval.lname}</td>
-                        <td className="py-3 px-4">{approval.lname}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-
-            <div className="bg-white p-6 rounded-xl shadow-lg overflow-y-auto max-h-[400px]">
-              <h2 className="text-xl font-semibold mb-4">Announcements</h2>
-              <ul className="space-y-4">
-                {announcements.map((announcement, index) => (
-                  <li key={index} className="border-b pb-2">
-                    <p className="text-lg font-medium">{announcement.title}</p>
-                    <p className="text-gray-500 text-sm">{announcement.date}</p>
-                    <p className="text-gray-700 text-sm mt-1">
-                      {announcement.details}
-                    </p>
-                  </li>
-                ))}
-              </ul>
+                  ))}
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
