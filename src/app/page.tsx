@@ -545,18 +545,34 @@ const HRDashboard = () => {
         <div className="mt-4">
           {/* Dashboard Charts */}
           <div className="grid gap-6 sm:grid-cols-2">
-            <div className="bg-white p-6 rounded-xl shadow-lg ">
+            {/* Pie Chart Container */}
+            <div className="bg-white p-6 rounded-xl shadow-lg">
               <h2 className="text-xl font-semibold mb-4">
                 Employee Distribution
               </h2>
-              <Pie data={pieChartData} />
+              <div className="w-full h-64">
+                {' '}
+                {/* Fixed height and width for the chart */}
+                <Pie
+                  data={pieChartData}
+                  options={{ maintainAspectRatio: false }}
+                />
+              </div>
             </div>
 
+            {/* Bar Chart Container */}
             <div className="bg-white p-6 rounded-xl shadow-lg">
               <h2 className="text-xl font-semibold mb-4">
                 Department-wise Employee Count
               </h2>
-              <Bar data={barChartData} />
+              <div className="w-full h-64">
+                {' '}
+                {/* Fixed height and width for the chart */}
+                <Bar
+                  data={barChartData}
+                  options={{ maintainAspectRatio: false }}
+                />
+              </div>
             </div>
           </div>
         </div>
