@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { Edit, Trash2 } from 'lucide-react';
 import { CreateModule } from '@/app/components/ui/superadmin/modules/buttons';
-import Link from 'next/link';
+import Breadcrumbs from '@/app/components/ui/superadmin/modules/Breadcrumb';
 
 const Module = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -50,22 +50,13 @@ const Module = () => {
   return (
     <main className="p-6">
       <div className="min-h-screen bg-gray-50 p-8">
-        {/* Breadcrumb */}
-        <nav className="mb-6">
-          <ol className="flex space-x-2 text-sm text-gray-600">
-            <li>
-              <Link href="/" className="hover:text-gray-900">
-                Home
-              </Link>
-            </li>
-            <li>/</li>
-            <li>
-              <Link href="/modules" className="hover:text-gray-900">
-                Modules
-              </Link>
-            </li>
-          </ol>
-        </nav>
+        <Breadcrumbs
+          breadcrumbs={[
+            { label: 'Dashboard', href: '/superadmin/dashboard' },
+            { label: 'Modules', href: '/superadmin/modules', active: true },
+          ]}
+        />
+
         <div className="flex justify-between mb-6">
           <h1 className="text-2xl font-semibold text-gray-700">Modules</h1>
           <CreateModule />
