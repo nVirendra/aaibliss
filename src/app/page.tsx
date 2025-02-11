@@ -168,17 +168,9 @@ const HRDashboard = () => {
         } bg-gradient-to-b from-blue-800 to-blue-900 text-white p-6 space-y-6 transition-all duration-300 ease-in-out h-screen fixed top-0 left-0   overflow-y-auto`}
       >
         <div className="flex justify-between items-center mb-8">
-          <h1 className={`${isSidebarOpen ? 'text-2xl' : 'text-lg'} font-bold`}>
-            HRMS
+          <h1 className={`${isSidebarOpen ? 'text-2xl' : 'text-lg'} `}>
+            Aaibliss
           </h1>
-          <button
-            className="text-white focus:outline-none"
-            onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-          >
-            <ChevronDown
-              className={`transform ${isSidebarOpen ? 'rotate-180' : ''}`}
-            />
-          </button>
         </div>
 
         {/* Sidebar Menu */}
