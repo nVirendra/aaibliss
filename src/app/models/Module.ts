@@ -7,7 +7,6 @@ interface IModule extends Document {
   description?: string;
   icon: string;
   base_price: number;
-  image: string;
   status: 'active' | 'inactive';
 }
 
@@ -19,7 +18,6 @@ const ModuleSchema = new Schema(
     description: { type: String },
     icon: { type: String, required: true },
     base_price: { type: Number, required: true },
-    image: { type: String, required: true },
     status: {
       type: String,
       required: true,

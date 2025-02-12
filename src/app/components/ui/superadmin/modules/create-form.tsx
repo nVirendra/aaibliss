@@ -1,28 +1,46 @@
 'use client';
 import { useState } from 'react';
-import { createModule } from '@/app/lib/actions';
+import { useRouter } from 'next/navigation';
 
 export default function Form() {
+  const router = useRouter(); // Initialize the router
+
   const [moduleName, setModuleName] = useState('');
   const [description, setDescription] = useState('');
   const [moduleCode, setModuleCode] = useState('');
   const [icon, setIcon] = useState('');
-  const [basePrice, setBasePrice] = useState('');
+  const [basePrice, setBasePrice] = useState(0);
   const [status, setStatus] = useState('active');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  // Handle form submission
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission logic here
-    console.log({
-      moduleName,
-      description,
-      moduleCode,
-      icon,
-      basePrice,
-      status,
-    });
-  };
 
+    try {
+      const response = await fetch('/api/superadmin/modules', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          moduleName,
+          description,
+          moduleCode,
+          icon,
+          basePrice,
+          status,
+        }),
+      });
+
+      const result = await response.json();
+      if (result.status == 200) {
+        router.push('/superadmin/modules');
+      }
+      console.log('Create module response:', result);
+    } catch (error) {
+      console.error('Error creating module:', error);
+    }
+  };
   return (
     <div className="bg-white rounded-lg shadow-md p-6">
       <form onSubmit={handleSubmit} className="space-y-6">
@@ -110,7 +128,7 @@ export default function Form() {
             type="number"
             id="basePrice"
             value={basePrice}
-            onChange={(e) => setBasePrice(e.target.value)}
+            onChange={(e) => setBasePrice(Number(e.target.value))}
             className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
             required
           />
