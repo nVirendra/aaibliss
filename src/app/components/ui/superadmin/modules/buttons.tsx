@@ -19,7 +19,7 @@ export function UpdateModule({ id }: { id: string }) {
       href={`/superadmin/modules/${id}/edit`}
       className="rounded-md border p-2 hover:bg-gray-100"
     >
-      <Edit className="w-5" />
+      <Edit className="text-blue-500 cursor-pointer hover:text-blue-700" />
     </Link>
   );
 }
@@ -30,7 +30,7 @@ export function DeleteModule({ id }: { id: string }) {
     <form action={deleteModuleWithId}>
       <button type="submit" className="rounded-md border p-2 hover:bg-gray-100">
         <span className="sr-only">Delete</span>
-        <Trash2 className="w-4" />
+        <Trash2 className="text-red-500 cursor-pointer hover:text-red-700" />
       </button>
     </form>
   );
