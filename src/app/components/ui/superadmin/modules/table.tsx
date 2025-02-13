@@ -1,7 +1,8 @@
 'use client';
-
-import { UpdateModule, DeleteModule } from './buttons';
+import { Trash2 } from 'lucide-react';
+import { UpdateModule, ShowModule } from './buttons';
 import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 
 // Define module type
 interface Module {
@@ -11,6 +12,8 @@ interface Module {
 }
 
 export default function TableData() {
+  const router = useRouter();
+
   const [modules, setModuleData] = useState<Module[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -34,6 +37,24 @@ export default function TableData() {
     }
   }
 
+  const handleDelete = async (id: string) => {
+    if (!confirm('Are you sure you want to delete this module?')) return;
+
+    try {
+      const response = await fetch(`/api/superadmin/modules/${id}`, {
+        method: 'DELETE',
+      });
+
+      if (response.ok) {
+        router.refresh(); // Refresh the page to update the list
+      } else {
+        alert('Error deleting module');
+      }
+    } catch (error) {
+      console.error('Error deleting module:', error);
+    }
+  };
+
   if (loading) return <p className="p-4 text-center">Loading...</p>;
   if (error) return <p className="p-4 text-center text-red-500">{error}</p>;
 
@@ -56,8 +77,15 @@ export default function TableData() {
                 <td className="p-4">{item.module_name}</td>
                 <td className="p-4">{item.module_code}</td>
                 <td className="p-4 flex items-center space-x-3">
+                  <ShowModule id={item._id} />
                   <UpdateModule id={item._id} />
-                  <DeleteModule id={item._id} />
+                  <button
+                    onClick={() => handleDelete(item._id)}
+                    className="rounded-md border p-2 hover:bg-gray-100"
+                  >
+                    <span className="sr-only">Delete</span>
+                    <Trash2 className="text-red-500 cursor-pointer hover:text-red-700" />
+                  </button>
                 </td>
               </tr>
             ))

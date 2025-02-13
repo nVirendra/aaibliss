@@ -10,6 +10,8 @@ const EditModule = async (props: { params: Promise<{ id: string }> }) => {
   if (!response.success) {
     notFound();
   }
+  const moduleData = JSON.parse(JSON.stringify(response.result));
+
   return (
     <main className="p-6">
       <div className="min-h-screen bg-gray-50 p-8">
@@ -24,7 +26,7 @@ const EditModule = async (props: { params: Promise<{ id: string }> }) => {
             },
           ]}
         />
-        <Form module={response.result} />
+        <Form module={moduleData} />
       </div>
     </main>
   );

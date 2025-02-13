@@ -1,4 +1,4 @@
-import { Edit, Trash2, Plus } from 'lucide-react';
+import { Edit, Eye, Plus } from 'lucide-react';
 import Link from 'next/link';
 
 export function CreateModule() {
@@ -24,14 +24,13 @@ export function UpdateModule({ id }: { id: string }) {
   );
 }
 
-export function DeleteModule({ id }: { id: string }) {
-  const deleteModuleWithId = '';
+export function ShowModule({ id }: { id: string }) {
   return (
-    <form action={deleteModuleWithId}>
-      <button type="submit" className="rounded-md border p-2 hover:bg-gray-100">
-        <span className="sr-only">Delete</span>
-        <Trash2 className="text-red-500 cursor-pointer hover:text-red-700" />
-      </button>
-    </form>
+    <Link
+      href={`/superadmin/modules/${id}/show`}
+      className="rounded-md border p-2 hover:bg-gray-100"
+    >
+      <Eye className="text-yellow-500 cursor-pointer hover:text-blue-700" />
+    </Link>
   );
 }
