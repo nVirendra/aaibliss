@@ -8,7 +8,9 @@ export default function SuperAdminDashboard() {
         <Card className="p-4">
           <Link href={'modules'}>Module</Link>
         </Card>
-        <Card className="p-4">Master</Card>
+        <Card className="p-4">
+          <Link href={'masters'}>Masters</Link>
+        </Card>
         <Card className="p-4">Menu</Card>
       </div>
     </main>

@@ -1,12 +1,13 @@
 'use client';
 import { usePathname } from 'next/navigation';
-import { Home, Package } from 'lucide-react';
+import { Home, Package, Database } from 'lucide-react';
 import Link from 'next/link';
 import { clsx } from 'clsx';
 
 const links = [
   { name: 'Home', href: '/superadmin/dashboard', icon: Home },
   { name: 'modules', href: '/superadmin/modules', icon: Package },
+  { name: 'masters', href: '/superadmin/masters', icon: Database },
 ];
 
 const NavLinks = () => {
