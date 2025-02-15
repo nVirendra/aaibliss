@@ -31,6 +31,7 @@ import {
   CategoryScale,
   LinearScale,
 } from 'chart.js';
+import Link from 'next/link';
 
 ChartJS.register(
   ArcElement,
@@ -45,6 +46,7 @@ const HRDashboard = () => {
   // State to manage dropdowns
   const [isAttendanceOpen, setIsAttendanceOpen] = useState(false);
   const [isLeaveOpen, setIsLeaveOpen] = useState(false);
+  const [isPayrollOpen, setIsPayrollOpen] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
 
@@ -149,13 +151,19 @@ const HRDashboard = () => {
     },
   ];
 
-  const toggleDropdown = (menu) => {
+  const toggleDropdown = (menu: string) => {
     if (menu === 'attendance') {
       setIsAttendanceOpen(!isAttendanceOpen);
-      setIsLeaveOpen(false); // Close leave menu if attendance is toggled
+      setIsLeaveOpen(false);
+      setIsPayrollOpen(false);
     } else if (menu === 'leave') {
       setIsLeaveOpen(!isLeaveOpen);
-      setIsAttendanceOpen(false); // Close attendance menu if leave is toggled
+      setIsAttendanceOpen(false);
+      setIsPayrollOpen(false);
+    } else if (menu === 'payroll') {
+      setIsPayrollOpen(!isPayrollOpen);
+      setIsAttendanceOpen(false);
+      setIsLeaveOpen(false);
     }
   };
 
@@ -169,7 +177,7 @@ const HRDashboard = () => {
       >
         <div className="flex justify-between items-center mb-8">
           <h1 className={`${isSidebarOpen ? 'text-2xl' : 'text-lg'} `}>
-            Aaibliss
+            FixHr
           </h1>
         </div>
 
@@ -240,7 +248,6 @@ const HRDashboard = () => {
                 </ul>
               )}
             </li>
-
             {/* Leave Section with Dropdown */}
             <li>
               <button
@@ -272,18 +279,43 @@ const HRDashboard = () => {
                 </ul>
               )}
             </li>
-
             <li>
-              <a
-                href="#"
-                className={`flex items-center py-2 px-3 text-lg hover:bg-blue-700 rounded-md ${
+              <button
+                className={`flex items-center w-full text-lg py-2 px-3 hover:bg-blue-700 rounded-md ${
                   isSidebarOpen ? '' : 'justify-center'
                 }`}
+                onClick={() => toggleDropdown('payroll')}
               >
                 <DollarSign className="w-5 h-5 mr-3" />
                 {isSidebarOpen && 'Payroll'}
-              </a>
+                <ChevronDown
+                  className={`ml-auto transform ${
+                    isPayrollOpen ? 'rotate-180' : ''
+                  }`}
+                />
+              </button>
+              {isPayrollOpen && (
+                <ul className="ml-6 mt-2 space-y-2">
+                  <li>
+                    <Link
+                      href="/payroll/earning-components"
+                      className="text-sm py-1 hover:bg-blue-700"
+                    >
+                      Earning Components
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href="/payroll/statutory-deductions"
+                      className="text-sm py-1 hover:bg-blue-700"
+                    >
+                      Statutory Deductions
+                    </Link>
+                  </li>
+                </ul>
+              )}
             </li>
+
             <li>
               <a
                 href="#"
@@ -295,7 +327,6 @@ const HRDashboard = () => {
                 {isSidebarOpen && 'Assets'}
               </a>
             </li>
-
             <li>
               <a
                 href="#"
@@ -307,7 +338,6 @@ const HRDashboard = () => {
                 {isSidebarOpen && 'Performance'}
               </a>
             </li>
-
             <li>
               <a
                 href="#"
@@ -319,7 +349,6 @@ const HRDashboard = () => {
                 {isSidebarOpen && 'Offboarding'}
               </a>
             </li>
-
             <li>
               <a
                 href="#"
@@ -331,7 +360,6 @@ const HRDashboard = () => {
                 {isSidebarOpen && 'Travel'}
               </a>
             </li>
-
             <li>
               <a
                 href="#"
@@ -343,7 +371,6 @@ const HRDashboard = () => {
                 {isSidebarOpen && 'Support'}
               </a>
             </li>
-
             {/* Configuration Section */}
             <li>
               <a
