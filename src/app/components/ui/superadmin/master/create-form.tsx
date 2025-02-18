@@ -10,13 +10,13 @@ export default function Form() {
   return (
     <div className="bg-white rounded-lg shadow-md p-6">
       <form action={formAction}>
-        {/* Module Name */}
+        {/* Master Name */}
         <div>
           <label
             htmlFor="masterName"
             className="block text-sm font-medium text-gray-700"
           >
-            Module Name
+            Master Name
           </label>
           <input
             type="text"

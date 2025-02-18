@@ -1,4 +1,4 @@
-import { Schema, model, Document } from 'mongoose';
+import mongoose, { Schema, Document } from 'mongoose';
 
 // Define the Earning Component interface
 interface IEarningComponent extends Document {
@@ -7,7 +7,7 @@ interface IEarningComponent extends Document {
   calculateProrataBasis: boolean;
   showPayslip: boolean;
   payslipName?: string;
-  calculationType: 'Fixed' | 'Percentage';
+  calculationType: 'ctc_percentage' | 'basic_percentage' | 'fixed';
   calculationThreshold: number;
   considerForPFCondition: 'Always' | 'If PF Wage < 15k';
   considerForPF: boolean;
@@ -17,7 +17,7 @@ interface IEarningComponent extends Document {
 }
 
 // Define the Earning Component schema
-const earningComponentSchema = new Schema<IEarningComponent>(
+const earningComponentSchema = new Schema(
   {
     earningName: { type: String, required: true },
     earningDescription: { type: String },
@@ -26,7 +26,7 @@ const earningComponentSchema = new Schema<IEarningComponent>(
     payslipName: { type: String },
     calculationType: {
       type: String,
-      enum: ['Fixed', 'Percentage'],
+      enum: ['ctc_percentage', 'basic_percentage', 'fixed'],
       required: true,
     },
     calculationThreshold: { type: Number, required: true },
@@ -44,7 +44,8 @@ const earningComponentSchema = new Schema<IEarningComponent>(
 );
 
 // Create and export the model
-export default model<IEarningComponent>(
-  'EarningComponent',
-  earningComponentSchema
-);
+const EarningComponent =
+  mongoose.models.EarningComponent ||
+  mongoose.model<IEarningComponent>('EarningComponent', earningComponentSchema);
+
+export default EarningComponent;

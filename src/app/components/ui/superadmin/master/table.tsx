@@ -1,34 +1,8 @@
-import { Trash2 } from 'lucide-react';
-import { UpdateModule, ShowModule } from './buttons';
-import { useRouter } from 'next/navigation';
+import { UpdateMaster } from './buttons';
 import { fetchMasters } from '@/app/lib/actions';
-// Define module type
-interface Module {
-  _id: string;
-  module_name: string;
-  module_code: string;
-}
 
 export async function TableData() {
   const masters = await fetchMasters();
-
-  const handleDelete = async (id: string) => {
-    if (!confirm('Are you sure you want to delete this module?')) return;
-
-    try {
-      const response = await fetch(`/api/superadmin/modules/${id}`, {
-        method: 'DELETE',
-      });
-
-      if (response.ok) {
-        router.refresh(); // Refresh the page to update the list
-      } else {
-        alert('Error deleting module');
-      }
-    } catch (error) {
-      console.error('Error deleting module:', error);
-    }
-  };
 
   return (
     <div className="bg-white rounded-lg shadow-md p-4">
@@ -49,8 +23,7 @@ export async function TableData() {
                 <td className="p-4">{item.master_name}</td>
                 <td className="p-4">{item.master_code}</td>
                 <td className="p-4 flex items-center space-x-3">
-                  <ShowModule id={item._id} />
-                  <UpdateModule id={item._id} />
+                  <UpdateMaster id={item._id} />
                   {/* <button
                     onClick={() => handleDelete(item._id)}
                     className="rounded-md border p-2 hover:bg-gray-100"

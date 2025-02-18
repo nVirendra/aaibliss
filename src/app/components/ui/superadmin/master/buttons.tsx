@@ -13,6 +13,17 @@ export function CreateMaster() {
   );
 }
 
+export function UpdateMaster({ id }: { id: string }) {
+  return (
+    <Link
+      href={`/superadmin/masters/${id}/edit`}
+      className="rounded-md border p-2 hover:bg-gray-100"
+    >
+      <Edit className="text-blue-500 cursor-pointer hover:text-blue-700" />
+    </Link>
+  );
+}
+
 export function UpdateModule({ id }: { id: string }) {
   return (
     <Link

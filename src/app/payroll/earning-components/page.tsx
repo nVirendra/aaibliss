@@ -1,36 +1,26 @@
 'use client';
 
 import { useForm, Controller } from 'react-hook-form';
-import axios from 'axios';
+
 import { Switch } from '@headlessui/react';
-
-interface EarningComponentFormData {
-  earningName: string;
-  earningDescription: string;
-  calculateProrataBasis: boolean;
-  showPayslip: boolean;
-  payslipName: string;
-  calculationType: string;
-  calculationThreshold: number;
-  considerForPFCondition: 'Always' | 'If PF Wage < 15k';
-  considerForPF: boolean;
-  considerForESIC: boolean;
-  isTaxable: boolean;
-  status: 'Active' | 'Inactive';
-}
-
+import { CreateEarningComponent } from '@/app/lib/actions';
+import { EarningComponentFormData } from '@/app/lib/actions';
 export default function AddEarningComponent() {
   const {
     register,
     handleSubmit,
     control,
+    reset,
     formState: { errors },
   } = useForm<EarningComponentFormData>();
 
   const onSubmit = async (data: EarningComponentFormData) => {
     try {
-      await axios.post('/api/earning-components/add', data);
-      alert('Earning component added successfully');
+      const result = await CreateEarningComponent(data);
+      console.log('result data', result);
+      if (result.success) {
+        reset();
+      }
     } catch (error) {
       console.error('Error adding earning component:', error);
     }
@@ -147,7 +137,7 @@ export default function AddEarningComponent() {
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
             >
               <option value="">Select Calculation Type</option>
-              <option value="Fixed">Fixed</option>
+              <option value="fixed">Fixed</option>
               <option value="ctc_percentage">% of CTC</option>
               <option value="basic_percentage">% of Basic</option>
             </select>
