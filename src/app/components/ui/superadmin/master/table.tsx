@@ -1,5 +1,6 @@
 import { UpdateMaster } from './buttons';
 import { fetchMasters } from '@/app/lib/actions';
+import { DeleteMaster } from './buttons';
 
 export async function TableData() {
   const masters = await fetchMasters();
@@ -24,6 +25,7 @@ export async function TableData() {
                 <td className="p-4">{item.master_code}</td>
                 <td className="p-4 flex items-center space-x-3">
                   <UpdateMaster id={item._id} />
+                  <DeleteMaster id={item._id} />
                   {/* <button
                     onClick={() => handleDelete(item._id)}
                     className="rounded-md border p-2 hover:bg-gray-100"

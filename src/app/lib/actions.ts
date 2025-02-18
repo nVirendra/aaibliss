@@ -107,6 +107,17 @@ export async function fetchMasterById(id: string) {
   }
 }
 
+export async function UpdateMaster(
+  id: string,
+  prevState: State,
+  formData: FormData
+) {
+  try {
+  } catch (error) {}
+}
+
+export async function deleteMaster(id: string) {}
+
 export type EarningComponentFormData = {
   earningName: string;
   earningDescription: string;

@@ -1,5 +1,6 @@
-import { Edit, Eye, Plus } from 'lucide-react';
+import { Edit, Eye, Plus, Trash2 } from 'lucide-react';
 import Link from 'next/link';
+import { deleteMaster } from '@/app/lib/actions';
 
 export function CreateMaster() {
   return (
@@ -21,6 +22,18 @@ export function UpdateMaster({ id }: { id: string }) {
     >
       <Edit className="text-blue-500 cursor-pointer hover:text-blue-700" />
     </Link>
+  );
+}
+
+export function DeleteMaster({ id }: { id: string }) {
+  const deleteMasterById = deleteMaster.bind(null, id);
+  return (
+    <form action={deleteMasterById}>
+      <button type="submit" className="rounded-md border p-2 hover:bg-gray-100">
+        <span className="sr-only">Delete</span>
+        <Trash2 className="w-4" />
+      </button>
+    </form>
   );
 }
 

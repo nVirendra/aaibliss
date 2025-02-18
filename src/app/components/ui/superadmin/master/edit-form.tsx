@@ -1,50 +1,29 @@
 'use client';
 
 import { MasterForm } from '@/app/lib/definitions';
-import React, { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import React, { useState, useEffect, useActionState } from 'react';
+import { UpdateMaster, State } from '@/app/lib/actions';
 
 export default function Form({ master }: { master: MasterForm }) {
-  const router = useRouter(); // Initialize the router
+  // setMasterName(master.master_name || '');
+  //     setDescription(master.description || '');
+  //     setMasterCode(master.master_code || '');
+  //     setMasterGroup(master.master_group || '');
+  //     setWebIcon(master.web_icon || '');
+  //     setAppIcon(master.app_icon || '');
+  //     setColor(master.color);
+  //     setStatus(master.status || 'active');
 
-  const [masterName, setMasterName] = useState('');
-  const [description, setDescription] = useState('');
-  const [moduleCode, setMasterCode] = useState('');
-  const [masterGroup, setMasterGroup] = useState('');
-  const [webIcon, setWebIcon] = useState('');
-  const [appIcon, setAppIcon] = useState('');
-  const [color, setColor] = useState('');
-  const [status, setStatus] = useState('active');
+  console.log(master);
 
-  // Populate state when module data is available
-  useEffect(() => {
-    if (master) {
-      setMasterName(master.master_name || '');
-      setDescription(master.description || '');
-      setMasterCode(master.master_code || '');
-      setMasterGroup(master.master_group || '');
-      setWebIcon(master.web_icon || '');
-      setAppIcon(master.app_icon || '');
-      setColor(master.color);
-      setStatus(master.status || 'active');
-    }
-  }, [master]);
-
-  // Handle form submission
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    try {
-      router.push('/superadmin/master');
-    } catch (error) {
-      console.error('Error updating module:', error);
-    }
-  };
+  const initialState: State = { message: null, errors: {} };
+  const updateMasterById = UpdateMaster.bind(null, master._id);
+  const [state, formAction] = useActionState(updateMasterById, initialState);
 
   return (
     <div className="bg-white rounded-lg shadow-md p-6">
       <h2 className="text-xl font-semibold text-gray-800 mb-4">Edit Master</h2>
-      <form onSubmit={handleSubmit} className="space-y-6">
+      <form action={formAction} className="space-y-6">
         {/* Module Name */}
         <div>
           <label className="block text-sm font-medium text-gray-700">
@@ -52,15 +31,16 @@ export default function Form({ master }: { master: MasterForm }) {
           </label>
           <input
             type="text"
-            value={masterName}
-            onChange={(e) => setMasterName(e.target.value)}
+            id="masterName"
+            name="masterName"
+            defaultValue={master.master_name}
             className="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
             required
           />
         </div>
 
         {/* Description */}
-        <div>
+        {/* <div>
           <label className="block text-sm font-medium text-gray-700">
             Description
           </label>
@@ -71,10 +51,10 @@ export default function Form({ master }: { master: MasterForm }) {
             rows={4}
             required
           />
-        </div>
+        </div> */}
 
         {/* Module Code */}
-        <div>
+        {/* <div>
           <label className="block text-sm font-medium text-gray-700">
             Module Code
           </label>
@@ -85,10 +65,10 @@ export default function Form({ master }: { master: MasterForm }) {
             className="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
             required
           />
-        </div>
+        </div> */}
 
         {/* Master Code */}
-        <div>
+        {/* <div>
           <label className="block text-sm font-medium text-gray-700">
             Master Group
           </label>
@@ -99,10 +79,10 @@ export default function Form({ master }: { master: MasterForm }) {
             className="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
             required
           />
-        </div>
+        </div> */}
 
         {/* Web Icon */}
-        <div>
+        {/* <div>
           <label className="block text-sm font-medium text-gray-700">
             Web Icon
           </label>
@@ -113,10 +93,10 @@ export default function Form({ master }: { master: MasterForm }) {
             className="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
             required
           />
-        </div>
+        </div> */}
 
         {/* App Icon */}
-        <div>
+        {/* <div>
           <label className="block text-sm font-medium text-gray-700">
             App Icon
           </label>
@@ -127,10 +107,10 @@ export default function Form({ master }: { master: MasterForm }) {
             className="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
             required
           />
-        </div>
+        </div> */}
 
         {/* Color */}
-        <div>
+        {/* <div>
           <label className="block text-sm font-medium text-gray-700">
             Color
           </label>
@@ -141,10 +121,10 @@ export default function Form({ master }: { master: MasterForm }) {
             className="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
             required
           />
-        </div>
+        </div> */}
 
         {/* Status */}
-        <div>
+        {/* <div>
           <label className="block text-sm font-medium text-gray-700">
             Status
           </label>
@@ -156,7 +136,7 @@ export default function Form({ master }: { master: MasterForm }) {
             <option value="active">Active</option>
             <option value="inactive">Inactive</option>
           </select>
-        </div>
+        </div> */}
 
         {/* Submit Button */}
         <div>
