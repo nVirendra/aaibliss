@@ -9,6 +9,7 @@ export type ModuleForm = {
 };
 
 export type MasterForm = {
+  _id: string;
   master_name: string;
   master_code: string;
   master_group: string;

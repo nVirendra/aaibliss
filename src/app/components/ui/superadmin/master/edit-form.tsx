@@ -1,21 +1,10 @@
 'use client';
 
 import { MasterForm } from '@/app/lib/definitions';
-import React, { useState, useEffect, useActionState } from 'react';
 import { UpdateMaster, State } from '@/app/lib/actions';
+import { useActionState } from 'react';
 
 export default function Form({ master }: { master: MasterForm }) {
-  // setMasterName(master.master_name || '');
-  //     setDescription(master.description || '');
-  //     setMasterCode(master.master_code || '');
-  //     setMasterGroup(master.master_group || '');
-  //     setWebIcon(master.web_icon || '');
-  //     setAppIcon(master.app_icon || '');
-  //     setColor(master.color);
-  //     setStatus(master.status || 'active');
-
-  console.log(master);
-
   const initialState: State = { message: null, errors: {} };
   const updateMasterById = UpdateMaster.bind(null, master._id);
   const [state, formAction] = useActionState(updateMasterById, initialState);
@@ -40,103 +29,109 @@ export default function Form({ master }: { master: MasterForm }) {
         </div>
 
         {/* Description */}
-        {/* <div>
+        <div>
           <label className="block text-sm font-medium text-gray-700">
             Description
           </label>
           <textarea
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
+            defaultValue={master.description}
+            id="description"
+            name="description"
             className="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
             rows={4}
             required
           />
-        </div> */}
+        </div>
 
-        {/* Module Code */}
-        {/* <div>
+        {/* Master Code */}
+        <div>
           <label className="block text-sm font-medium text-gray-700">
-            Module Code
+            Master Code
           </label>
           <input
             type="text"
-            value={moduleCode}
-            onChange={(e) => setMasterCode(e.target.value)}
+            defaultValue={master.master_code}
+            id="masterCode"
+            name="masterCode"
             className="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
             required
           />
-        </div> */}
+        </div>
 
-        {/* Master Code */}
-        {/* <div>
+        <div>
           <label className="block text-sm font-medium text-gray-700">
             Master Group
           </label>
           <input
             type="text"
-            value={masterGroup}
-            onChange={(e) => setMasterGroup(e.target.value)}
+            defaultValue={master.master_group}
+            id="masterGroup"
+            name="masterGroup"
             className="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
             required
           />
-        </div> */}
+        </div>
 
         {/* Web Icon */}
-        {/* <div>
+        <div>
           <label className="block text-sm font-medium text-gray-700">
             Web Icon
           </label>
           <input
             type="text"
-            value={webIcon}
-            onChange={(e) => setWebIcon(e.target.value)}
+            defaultValue={master.web_icon}
+            id="webIcon"
+            name="webIcon"
             className="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
             required
           />
-        </div> */}
+        </div>
 
         {/* App Icon */}
-        {/* <div>
+        <div>
           <label className="block text-sm font-medium text-gray-700">
             App Icon
           </label>
           <input
             type="text"
-            value={appIcon}
-            onChange={(e) => setWebIcon(e.target.value)}
+            defaultValue={master.app_icon}
+            id="appIcon"
+            name="appIcon"
             className="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
             required
           />
-        </div> */}
+        </div>
 
         {/* Color */}
-        {/* <div>
+        <div>
           <label className="block text-sm font-medium text-gray-700">
             Color
           </label>
           <input
             type="text"
-            value={color}
-            onChange={(e) => setColor(e.target.value)}
+            defaultValue={master.color}
+            id="color"
+            name="color"
             className="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
             required
           />
-        </div> */}
+        </div>
 
         {/* Status */}
-        {/* <div>
+        <div>
           <label className="block text-sm font-medium text-gray-700">
             Status
           </label>
           <select
-            value={status}
-            onChange={(e) => setStatus(e.target.value)}
+            defaultValue={master.status}
+            id="masterStatus"
+            name="masterStatus"
             className="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
           >
             <option value="active">Active</option>
             <option value="inactive">Inactive</option>
           </select>
-        </div> */}
+        </div>
 
         {/* Submit Button */}
         <div>

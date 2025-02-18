@@ -78,8 +78,9 @@ export async function createMaster(prevState: State, formData: FormData) {
 export async function fetchMasters() {
   try {
     await db.connect();
-    const masters = await Master.find({});
-    return masters;
+    const masters = await Master.find({}).lean(); // Get plain objects
+
+    return JSON.parse(JSON.stringify(masters));
   } catch (error) {
     return {
       success: false,
@@ -113,10 +114,52 @@ export async function UpdateMaster(
   formData: FormData
 ) {
   try {
-  } catch (error) {}
+    const masterName = formData.get('masterName');
+    const description = formData.get('description');
+    const masterCode = formData.get('masterCode');
+    const masterGroup = formData.get('masterGroup');
+    const webIcon = formData.get('webIcon');
+    const appIcon = formData.get('appIcon');
+    const color = formData.get('color');
+    const status = formData.get('status');
+
+    const updatedModule = await Module.findByIdAndUpdate(id, {
+      master_name: masterName,
+      description: description,
+      master_code: masterCode,
+      master_group: masterGroup,
+      web_icon: webIcon,
+      app_icon: appIcon,
+      color: color,
+      status: status,
+    });
+
+    if (!updatedModule) {
+      return { success: false, message: 'Master not found' };
+    }
+    return { success: true, message: 'Master updated Successfully' };
+  } catch (error) {
+    return {
+      success: false,
+      message: error instanceof Error ? error.message : 'Unknown error',
+      result: null,
+    };
+  }
 }
 
-export async function deleteMaster(id: string) {}
+export async function deleteMaster(id: string) {
+  await db.connect();
+  const deletedMaster = await Master.findByIdAndDelete(id);
+  if (!deletedMaster) {
+    return {
+      success: false,
+      message: 'Master Not found',
+      result: null,
+    };
+  }
+  revalidatePath('/superadmin/masters');
+  return { message: 'Deleted Master.' };
+}
 
 export type EarningComponentFormData = {
   earningName: string;
