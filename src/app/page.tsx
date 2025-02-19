@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Calendar,
   Briefcase,
@@ -32,6 +32,7 @@ import {
   LinearScale,
 } from 'chart.js';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 ChartJS.register(
   ArcElement,
@@ -43,6 +44,23 @@ ChartJS.register(
 );
 
 const HRDashboard = () => {
+  const [user, setUser] = useState(null);
+  const router = useRouter();
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      router.push('/auth/login');
+    } else {
+      fetch('/api/protected', {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+        .then((res) => res.json())
+        .then((data) => setUser(data.user))
+        .catch(() => router.push('/auth/login'));
+    }
+  }, [router]);
+
   // State to manage dropdowns
   const [isAttendanceOpen, setIsAttendanceOpen] = useState(false);
   const [isLeaveOpen, setIsLeaveOpen] = useState(false);
