@@ -6,7 +6,9 @@ import { useActionState } from 'react';
 
 export default function Form({ master }: { master: MasterForm }) {
   const initialState: State = { message: null, errors: {} };
-  const updateMasterById = UpdateMaster.bind(null, master._id);
+  const updateMasterById = master?._id
+    ? UpdateMaster.bind(null, master._id)
+    : null;
   const [state, formAction] = useActionState(updateMasterById, initialState);
 
   return (

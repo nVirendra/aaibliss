@@ -114,37 +114,54 @@ export async function UpdateMaster(
   formData: FormData
 ) {
   try {
-    const masterName = formData.get('masterName');
-    const description = formData.get('description');
-    const masterCode = formData.get('masterCode');
-    const masterGroup = formData.get('masterGroup');
-    const webIcon = formData.get('webIcon');
-    const appIcon = formData.get('appIcon');
-    const color = formData.get('color');
-    const status = formData.get('status');
+    if (!id) {
+      return { success: false, message: 'Invalid master ID' };
+    }
 
-    const updatedModule = await Module.findByIdAndUpdate(id, {
-      master_name: masterName,
-      description: description,
-      master_code: masterCode,
-      master_group: masterGroup,
-      web_icon: webIcon,
-      app_icon: appIcon,
-      color: color,
-      status: status,
-    });
+    const masterName = formData.get('masterName')?.toString() || '';
+    const description = formData.get('description')?.toString() || '';
+    const masterCode = formData.get('masterCode')?.toString() || '';
+    const masterGroup = formData.get('masterGroup')?.toString() || '';
+    const webIcon = formData.get('webIcon')?.toString() || '';
+    const appIcon = formData.get('appIcon')?.toString() || '';
+    const color = formData.get('color')?.toString() || '';
+    const status = formData.get('status')?.toString() || 'inactive';
 
-    if (!updatedModule) {
+    const updatedMaster = await Master.findByIdAndUpdate(
+      id,
+      {
+        master_name: masterName,
+        description: description,
+        master_code: masterCode,
+        master_group: masterGroup,
+        web_icon: webIcon,
+        app_icon: appIcon,
+        color: color,
+        status: status,
+      },
+      { new: true } // Ensures the updated document is returned
+    );
+
+    if (!updatedMaster) {
       return { success: false, message: 'Master not found' };
     }
-    return { success: true, message: 'Master updated Successfully' };
+
+    const serializedMaster = {
+      ...updatedMaster.toObject(),
+      _id: updatedMaster._id.toString(), // Convert ObjectId to string
+      createdAt: updatedMaster.createdAt.toISOString(), // Convert Date to string
+      updatedAt: updatedMaster.updatedAt.toISOString(),
+    };
   } catch (error) {
     return {
       success: false,
       message: error instanceof Error ? error.message : 'Unknown error',
-      result: null,
     };
   }
+
+  // Revalidate and redirect
+  revalidatePath('/superadmin/masters');
+  redirect('/superadmin/masters');
 }
 
 export async function deleteMaster(id: string) {
