@@ -6,7 +6,7 @@ import { verifyToken } from './app/utils/auth';
 export async function middleware(request: NextRequest) {
   const token = request.cookies.get('token')?.value; // Get JWT token from cookies
   const { pathname } = request.nextUrl;
-
+  console.log('mdl token', token);
   // Define protected routes for each role
   const protectedRoutes = {
     superadmin: /^\/superadmin(\/.*)?$/,

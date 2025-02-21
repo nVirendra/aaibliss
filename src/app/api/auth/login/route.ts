@@ -19,17 +19,22 @@ export async function POST(req: Request) {
       );
     }
 
-    const token = generateToken(user._id);
+    const response = NextResponse.json({
+      message: 'Login Suceesfully!',
+      status: true,
+    });
 
-    return NextResponse.json(
-      {
-        message: 'Login Suceesfully!',
-        status: 200,
-        user,
-        token,
-      },
-      { status: 200 }
-    );
+    const token = generateToken(user._id);
+    response.cookies.set({
+      name: 'token',
+      value: token,
+      httpOnly: true,
+
+      path: '/',
+      maxAge: 60 * 60, // 1 hour
+    });
+
+    return response;
   } catch (error) {
     console.log('error', error);
     return NextResponse.json(

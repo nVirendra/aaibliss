@@ -16,8 +16,8 @@ export default function Login() {
     });
     if (res.ok) {
       const { token } = await res.json();
-      localStorage.setItem('token', token);
-      router.push('/');
+      //localStorage.setItem('token', token);
+      router.push('/superadmin/dashboard');
     }
   };
 
