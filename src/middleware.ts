@@ -49,5 +49,6 @@ export async function middleware(request: NextRequest) {
 
 // Define the routes to apply the middleware
 export const config = {
-  matcher: ['/superadmin/:path*', '/admin/:path*', '/user/:path*'],
+  // matcher: ['/superadmin/:path*', '/admin/:path*', '/user/:path*'],
+  matcher: ['/'],
 };

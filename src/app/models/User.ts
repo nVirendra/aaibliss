@@ -1,30 +1,37 @@
-// models/User.ts
-import mongoose, { Document, Schema } from 'mongoose';
-import bcrypt from 'bcryptjs';
+import mongoose, { Schema, Document } from 'mongoose';
 
-export interface IUser extends Document {
-  name: string;
+interface IUser extends Document {
+  first_name: string;
+  last_name: string;
   email: string;
+  phone: string;
   password: string;
-  comparePassword: (password: string) => Promise<boolean>;
+  role_id: mongoose.Schema.Types.ObjectId;
+  business_id: mongoose.Schema.Types.ObjectId;
+  profile_picture?: string;
+  status: 'active' | 'inactive';
 }
 
-const UserSchema: Schema = new Schema({
-  name: { type: String, required: true },
-  email: { type: String, required: true, unique: true },
-  password: { type: String, required: true },
-});
-
-UserSchema.pre<IUser>('save', async function (next) {
-  if (this.isModified('password')) {
-    this.password = await bcrypt.hash(this.password, 10);
+const UserSchema = new Schema<IUser>(
+  {
+    first_name: { type: String, required: true },
+    last_name: { type: String, required: true },
+    email: { type: String, required: true, unique: true },
+    phone: { type: String, required: true },
+    password: { type: String, required: true },
+    role_id: { type: Schema.Types.ObjectId, ref: 'Role', required: true }, // Linked to Role model
+    business_id: {
+      type: Schema.Types.ObjectId,
+      ref: 'Business',
+      required: true,
+    }, // Linked to Business model
+    profile_picture: { type: String },
+    status: { type: String, enum: ['active', 'inactive'], default: 'active' },
+  },
+  {
+    timestamps: true,
   }
-  next();
-});
+);
 
-UserSchema.methods.comparePassword = async function (password: string) {
-  return await bcrypt.compare(password, this.password);
-};
-
-export default mongoose.models.User ||
-  mongoose.model<IUser>('User', UserSchema);
+const User = mongoose.models.User || mongoose.model<IUser>('User', UserSchema);
+export default User;
