@@ -1,10 +1,10 @@
 'use client';
 
-import { MasterForm } from '@/app/lib/definitions';
+import { MasterField } from '@/app/lib/definitions';
 import { UpdateMaster, State } from '@/app/lib/actions';
 import { useActionState } from 'react';
 
-export default function Form({ master }: { master: MasterForm }) {
+export default function Form({ master }: { master: MasterField }) {
   const initialState: State = { message: null, errors: {} };
   const updateMasterById = master?._id
     ? UpdateMaster.bind(null, master._id)

@@ -26,13 +26,6 @@ export async function TableData() {
                 <td className="p-4 flex items-center space-x-3">
                   <UpdateMaster id={item._id} />
                   <DeleteMaster id={item._id} />
-                  {/* <button
-                    onClick={() => handleDelete(item._id)}
-                    className="rounded-md border p-2 hover:bg-gray-100"
-                  >
-                    <span className="sr-only">Delete</span>
-                    <Trash2 className="text-red-500 cursor-pointer hover:text-red-700" />
-                  </button> */}
                 </td>
               </tr>
             ))

@@ -8,7 +8,7 @@ export type ModuleForm = {
   status: 'active' | 'inactive';
 };
 
-export type MasterForm = {
+export type MasterField = {
   _id: string;
   master_name: string;
   master_code: string;

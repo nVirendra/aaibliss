@@ -16,7 +16,7 @@ export async function middleware(request: NextRequest) {
 
   // Redirect to login if no token is found
   if (!token) {
-    return NextResponse.redirect(new URL('/auth/login', request.url));
+    return NextResponse.redirect(new URL('/login', request.url));
   }
 
   try {
