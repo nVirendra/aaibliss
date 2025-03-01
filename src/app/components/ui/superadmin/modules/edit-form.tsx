@@ -1,10 +1,10 @@
 'use client';
 
-import { ModuleForm } from '@/app/lib/definitions';
+import { ModuleField } from '@/app/lib/definitions';
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 
-export default function Form({ module }: { module: ModuleForm }) {
+export default function Form({ module }: { module: ModuleField }) {
   const router = useRouter(); // Initialize the router
 
   const [moduleName, setModuleName] = useState('');

@@ -6,6 +6,9 @@ import { redirect } from 'next/navigation';
 import EarningComponent from '../models/EarningComponent';
 import Module from '../models/Module';
 import PayrollSetting from '../models/PayrollSetting';
+import Business from '../models/Business';
+import slugify from 'slugify';
+import Country from '../models/Country';
 
 export async function fetchModuleById(id: string) {
   try {
@@ -287,4 +290,47 @@ export async function getPayrollSettings() {
   await db.connect();
   const settings = await PayrollSetting.findOne({});
   return settings ? settings.toObject() : null;
+}
+
+export async function createBusiness(formData: FormData) {
+  try {
+    await db.connect();
+
+    const businessName = formData.get('businessName') as string | null;
+
+    const businessSlug = slugify(businessName ?? '', {
+      lower: true,
+      strict: true,
+    });
+
+    const business = Business.create({
+      business_name: formData.get('businessName'),
+      business_slug: businessSlug,
+      registration_number: formData.get('registrationNumber'),
+      email: formData.get('email'),
+      contact_number: formData.get('phone'),
+      address: {
+        street: 'amleshwar',
+        city: 'durg',
+        state: 'cg',
+        postal_code: '491111',
+        country: 'In',
+      },
+      business_type: formData.get('businessType'),
+      business_category: formData.get('businessCategory'),
+    });
+  } catch (error) {
+    console.log('Error creating business..', error);
+  }
+}
+
+export async function getCountry() {
+  try {
+    await db.connect();
+    const countries = await Country.find({});
+    return JSON.parse(JSON.stringify(countries)); // Convert to plain JSON
+  } catch (error) {
+    console.log('Error getting countries', error);
+    return [];
+  }
 }

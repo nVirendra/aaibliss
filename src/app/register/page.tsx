@@ -7,10 +7,9 @@ export const metadata: Metadata = {
 
 export default async function Register() {
   const masterData = await fetchGroupMasters();
-  console.log(masterData);
   return (
     <div className="flex min-h-screen items-center justify-center bg-gradient-to-r from-blue-50 to-blue-100 py-10">
-      <Form />
+      <Form masterData={masterData} />
     </div>
   );
 }

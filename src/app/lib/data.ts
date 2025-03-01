@@ -1,23 +1,20 @@
 import { MasterField } from './definitions';
 import db from '../utils/db';
 import Master from '../models/Master';
-
-interface GroupedMasterData {
-  BUSINESS_TYPE: MasterField[];
-  BUSINESS_CATEGORY: MasterField[];
-}
+import { GroupedMasterData } from './definitions';
 
 export async function fetchGroupMasters(): Promise<GroupedMasterData | null> {
   try {
     await db.connect();
 
-    // Fetch data without `.lean()`
     const masters = await Master.find({
       master_group: { $in: ['BUSINESS_TYPE', 'BUSINESS_CATEGORY'] },
     });
 
     // Convert Mongoose documents to plain JavaScript objects
-    const plainMasters: MasterField[] = masters.map((doc) => doc.toObject());
+    const plainMasters: MasterField[] = masters.map((doc) =>
+      JSON.parse(JSON.stringify(doc))
+    );
 
     const groupedData: GroupedMasterData = {
       BUSINESS_TYPE: [],

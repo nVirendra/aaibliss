@@ -26,7 +26,11 @@ const AddressSchema = new Schema(
     city: { type: String, required: true },
     state: { type: String, required: true },
     postal_code: { type: String, required: true },
-    country: { type: String, required: true },
+    country: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Country',
+      required: true,
+    }, // Linking to Country model
   },
   {
     timestamps: true,
@@ -38,7 +42,7 @@ const BusinessSchema = new Schema(
     business_name: { type: String, required: true },
     business_slug: { type: String, required: true, unique: true },
     registration_number: { type: String, required: true },
-    address: { type: AddressSchema, required: true },
+    address: AddressSchema,
     contact_number: { type: String, required: true },
     email: { type: String, required: true, unique: true },
     business_type: {
