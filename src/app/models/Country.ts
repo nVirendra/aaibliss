@@ -2,7 +2,7 @@ import mongoose, { Schema, Document } from 'mongoose';
 import { IState, ICurrency } from '../lib/definitions';
 
 interface ICountry extends Document {
-  name: string;
+  country: string;
   code: string;
   states: IState[];
   currency: ICurrency;
@@ -14,7 +14,7 @@ const StateSchema = new Schema<IState>({
 });
 
 const CountrySchema = new Schema<ICountry>({
-  name: { type: String, required: true },
+  country: { type: String, required: true },
   code: { type: String, required: true, unique: true },
   states: [StateSchema],
   currency: {
