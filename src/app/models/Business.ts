@@ -20,22 +20,17 @@ interface IBusiness extends Document {
   status: 'active' | 'inactive';
 }
 
-const AddressSchema = new Schema(
-  {
-    street: { type: String, required: true },
-    city: { type: String, required: true },
-    state: { type: String, required: true },
-    postal_code: { type: String, required: true },
-    country: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Country',
-      required: true,
-    }, // Linking to Country model
-  },
-  {
-    timestamps: true,
-  }
-);
+const AddressSchema = new Schema({
+  street: { type: String, required: true },
+  city: { type: String, required: true },
+  state: { type: String, required: true },
+  postal_code: { type: String, required: true },
+  country: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Country',
+    required: true,
+  }, // Linking to Country model
+});
 
 const BusinessSchema = new Schema(
   {

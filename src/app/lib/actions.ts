@@ -9,6 +9,7 @@ import PayrollSetting from '../models/PayrollSetting';
 import Business from '../models/Business';
 import slugify from 'slugify';
 import Country from '../models/Country';
+import { z } from 'zod';
 
 export async function fetchModuleById(id: string) {
   try {
@@ -292,8 +293,41 @@ export async function getPayrollSettings() {
   return settings ? settings.toObject() : null;
 }
 
+const businessSchema = z.object({
+  businessName: z
+    .string()
+    .min(5, 'Business name must be at least 2 characters long'),
+  // registrationNumber: z
+  //   .string()
+  //   .min(5, 'Registration number must be at least 5 characters'),
+  // email: z.string().email('Invalid email address'),
+  // phone: z.string().min(10, 'Phone number must be at least 10 digits'),
+  // password: z.string().min(6, 'Password must be at least 6 characters long'),
+  // //confirmPassword: z.string(),
+  // //address: z.string().min(5, 'Address must be at least 5 characters long'),
+  // selectedCountry: z.string().nonempty('Country is required'),
+  // selectedState: z.string().nonempty('State is required'),
+  // cityName: z.string().optional(),
+  // streetName: z.string().optional(),
+});
+
 export async function createBusiness(formData: FormData) {
   try {
+    const validatedFields = businessSchema.safeParse({
+      businessName: formData.get('businessName'),
+      // amount: formData.get('amount'),
+      // status: formData.get('status'),
+    });
+
+    // If form validation fails, return errors early. Otherwise, continue.
+    if (!validatedFields.success) {
+      // return {
+      //   errors: validatedFields.error.flatten().fieldErrors,
+      //   message: 'Missing Fields. Failed to Create Invoice.',
+      // };
+      console.log('eror log', validatedFields.error.flatten().fieldErrors);
+    }
+
     await db.connect();
 
     const businessName = formData.get('businessName') as string | null;
@@ -310,11 +344,11 @@ export async function createBusiness(formData: FormData) {
       email: formData.get('email'),
       contact_number: formData.get('phone'),
       address: {
-        street: 'amleshwar',
-        city: 'durg',
-        state: 'cg',
-        postal_code: '491111',
-        country: 'In',
+        street: formData.get('streetName'),
+        city: formData.get('cityName'),
+        state: formData.get('selectedState'),
+        postal_code: formData.get('postalCode'),
+        country: formData.get('selectedCountry'),
       },
       business_type: formData.get('businessType'),
       business_category: formData.get('businessCategory'),
