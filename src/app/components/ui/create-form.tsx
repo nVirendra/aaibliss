@@ -1,21 +1,31 @@
+'use client';
 import React from 'react';
 import { GroupedMasterData } from '@/app/lib/definitions';
 import { useActionState } from 'react';
 import { createBusiness } from '@/app/lib/actions';
 import CountryStateSelect from '../CountryStateSelect';
+import { BusinessState } from '@/app/lib/actions';
 
 export default function Form({
   masterData,
 }: {
   masterData: GroupedMasterData | null;
 }) {
+  const initialState: BusinessState = { errors: {}, message: null };
+
+  const [state, formAction] = useActionState(createBusiness, initialState);
+
   return (
     <div className="w-full max-w-3xl bg-white p-10 rounded-2xl shadow-xl">
       <h2 className="text-3xl font-bold text-gray-800 text-center mb-6">
         Create Your Business Account
       </h2>
 
-      <form action={createBusiness} className="grid grid-cols-1 gap-6">
+      <form
+        action={formAction}
+        method="POST"
+        className="grid grid-cols-1 gap-6"
+      >
         <div>
           <label
             htmlFor="businessName"
@@ -31,6 +41,11 @@ export default function Form({
             className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-green-500 focus:border-green-500"
             required
           />
+          {state?.errors?.businessName && (
+            <p className="text-red-500 text-sm">
+              {state.errors.businessName.join(', ')}
+            </p>
+          )}
         </div>
 
         <div>
@@ -48,6 +63,11 @@ export default function Form({
             className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-green-500 focus:border-green-500"
             required
           />
+          {state?.errors?.registrationNumber && (
+            <p className="text-red-500 text-sm">
+              {state.errors.registrationNumber.join(', ')}
+            </p>
+          )}
         </div>
 
         <CountryStateSelect />
@@ -72,6 +92,11 @@ export default function Form({
                 </option>
               ))}
             </select>
+            {state?.errors?.businessType && (
+              <p className="text-red-500 text-sm">
+                {state.errors.businessType.join(', ')}
+              </p>
+            )}
           </div>
           <div>
             <label
@@ -93,6 +118,11 @@ export default function Form({
                 </option>
               ))}
             </select>
+            {state?.errors?.businessCategory && (
+              <p className="text-red-500 text-sm">
+                {state.errors.businessCategory.join(', ')}
+              </p>
+            )}
           </div>
         </div>
 
@@ -111,6 +141,11 @@ export default function Form({
             className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-green-500 focus:border-green-500"
             required
           />
+          {state?.errors?.email && (
+            <p className="text-red-500 text-sm">
+              {state.errors.email.join(', ')}
+            </p>
+          )}
         </div>
 
         <div>
@@ -127,6 +162,11 @@ export default function Form({
             placeholder="Enter your business address"
             className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-green-500 focus:border-green-500"
           ></textarea>
+          {state?.errors?.address && (
+            <p className="text-red-500 text-sm">
+              {state.errors.address.join(', ')}
+            </p>
+          )}
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -145,6 +185,11 @@ export default function Form({
               className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-green-500 focus:border-green-500"
               required
             />
+            {state?.errors?.phone && (
+              <p className="text-red-500 text-sm">
+                {state.errors.phone.join(', ')}
+              </p>
+            )}
           </div>
           <div>
             <label
@@ -161,6 +206,11 @@ export default function Form({
               className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-green-500 focus:border-green-500"
               required
             />
+            {state?.errors?.password && (
+              <p className="text-red-500 text-sm">
+                {state.errors.password.join(', ')}
+              </p>
+            )}
           </div>
         </div>
 
@@ -179,6 +229,11 @@ export default function Form({
             className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-green-500 focus:border-green-500"
             required
           />
+          {state?.errors?.confirmPassword && (
+            <p className="text-red-500 text-sm">
+              {state.errors.confirmPassword.join(', ')}
+            </p>
+          )}
         </div>
 
         <div className="mt-4">

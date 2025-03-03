@@ -79,6 +79,111 @@ export async function createMaster(prevState: State, formData: FormData) {
   redirect('/superadmin/masters');
 }
 
+const businessSchema = z
+  .object({
+    businessName: z
+      .string()
+      .min(2, 'Business name must be at least 2 characters long'),
+    registrationNumber: z.string().min(1, 'Registration number is required'),
+    email: z.string().email('Invalid email address'),
+    phone: z.string().min(10, 'Phone number must be at least 10 digits'),
+    password: z.string().min(6, 'Password must be at least 6 characters long'),
+    confirmPassword: z.string(),
+    address: z.string().min(5, 'Address must be at least 5 characters long'),
+    selectedCountry: z.string().nonempty('Country is required'),
+    selectedState: z.string().nonempty('State is required'),
+    cityName: z.string().optional(),
+    streetName: z.string().optional(),
+    businessType: z.string().nonempty('Business type is required'),
+    businessCategory: z.string().nonempty('Business category is required'),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords don't match",
+    path: ['confirmPassword'],
+  });
+
+export type BusinessState = {
+  errors?: {
+    businessName?: string[];
+    registrationNumber?: string[];
+    email?: string[];
+    phone?: string[];
+    password?: string[];
+    confirmPassword?: string[];
+    address?: string[];
+    selectedCountry?: string[];
+    selectedState?: string[];
+    businessType?: string[];
+    businessCategory?: string[];
+  };
+  message?: string | null;
+};
+
+export async function createBusiness(
+  prevState: BusinessState,
+  formData: FormData
+): Promise<BusinessState> {
+  try {
+    // Validate form data
+    const validatedFields = businessSchema.safeParse({
+      businessName: formData.get('businessName'),
+      registrationNumber: formData.get('registrationNumber'),
+      selectedCountry: formData.get('selectedCountry'),
+      selectedState: formData.get('selectedState'),
+      cityName: formData.get('cityName'),
+      streetName: formData.get('streetName'),
+      email: formData.get('email'),
+      phone: formData.get('phone'),
+      password: formData.get('password'),
+      confirmPassword: formData.get('confirmPassword'),
+      address: formData.get('address'),
+
+      businessType: formData.get('businessType'),
+      businessCategory: formData.get('businessCategory'),
+    });
+
+    // If validation fails, return errors
+    if (!validatedFields.success) {
+      return {
+        errors: validatedFields.error.flatten().fieldErrors,
+        message: 'Missing or invalid fields. Please check your input.',
+      };
+    }
+
+    // Connect to the database
+    await db.connect();
+
+    // Create a business slug
+    const businessName = formData.get('businessName') as string;
+    const businessSlug = slugify(businessName, { lower: true, strict: true });
+
+    // Create the business
+    await Business.create({
+      business_name: businessName,
+      business_slug: businessSlug,
+      registration_number: formData.get('registrationNumber'),
+      email: formData.get('email'),
+      contact_number: formData.get('phone'),
+      address: {
+        street: formData.get('streetName'),
+        city: formData.get('cityName'),
+        state: formData.get('selectedState'),
+        postal_code: formData.get('postalCode'),
+        country: formData.get('selectedCountry'),
+      },
+      business_type: formData.get('businessType'),
+      business_category: formData.get('businessCategory'),
+    });
+
+    return { message: 'Business registered successfully!' };
+  } catch (error) {
+    console.error('Error creating business:', error);
+    return {
+      message: 'Failed to register business. Please try again.',
+    };
+  }
+}
+
 export async function fetchMasters() {
   try {
     await db.connect();
@@ -291,71 +396,6 @@ export async function getPayrollSettings() {
   await db.connect();
   const settings = await PayrollSetting.findOne({});
   return settings ? settings.toObject() : null;
-}
-
-const businessSchema = z.object({
-  businessName: z
-    .string()
-    .min(5, 'Business name must be at least 2 characters long'),
-  // registrationNumber: z
-  //   .string()
-  //   .min(5, 'Registration number must be at least 5 characters'),
-  // email: z.string().email('Invalid email address'),
-  // phone: z.string().min(10, 'Phone number must be at least 10 digits'),
-  // password: z.string().min(6, 'Password must be at least 6 characters long'),
-  // //confirmPassword: z.string(),
-  // //address: z.string().min(5, 'Address must be at least 5 characters long'),
-  // selectedCountry: z.string().nonempty('Country is required'),
-  // selectedState: z.string().nonempty('State is required'),
-  // cityName: z.string().optional(),
-  // streetName: z.string().optional(),
-});
-
-export async function createBusiness(formData: FormData) {
-  try {
-    const validatedFields = businessSchema.safeParse({
-      businessName: formData.get('businessName'),
-      // amount: formData.get('amount'),
-      // status: formData.get('status'),
-    });
-
-    // If form validation fails, return errors early. Otherwise, continue.
-    if (!validatedFields.success) {
-      // return {
-      //   errors: validatedFields.error.flatten().fieldErrors,
-      //   message: 'Missing Fields. Failed to Create Invoice.',
-      // };
-      console.log('eror log', validatedFields.error.flatten().fieldErrors);
-    }
-
-    await db.connect();
-
-    const businessName = formData.get('businessName') as string | null;
-
-    const businessSlug = slugify(businessName ?? '', {
-      lower: true,
-      strict: true,
-    });
-
-    const business = Business.create({
-      business_name: formData.get('businessName'),
-      business_slug: businessSlug,
-      registration_number: formData.get('registrationNumber'),
-      email: formData.get('email'),
-      contact_number: formData.get('phone'),
-      address: {
-        street: formData.get('streetName'),
-        city: formData.get('cityName'),
-        state: formData.get('selectedState'),
-        postal_code: formData.get('postalCode'),
-        country: formData.get('selectedCountry'),
-      },
-      business_type: formData.get('businessType'),
-      business_category: formData.get('businessCategory'),
-    });
-  } catch (error) {
-    console.log('Error creating business..', error);
-  }
 }
 
 export async function getCountry() {
