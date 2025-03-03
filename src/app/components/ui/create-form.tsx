@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
 import { GroupedMasterData } from '@/app/lib/definitions';
-import { useActionState } from 'react';
+import { useActionState, useState } from 'react';
 import { createBusiness } from '@/app/lib/actions';
 import CountryStateSelect from '../CountryStateSelect';
 import { BusinessState } from '@/app/lib/actions';
@@ -14,6 +14,21 @@ export default function Form({
   const initialState: BusinessState = { errors: {}, message: null };
 
   const [state, formAction] = useActionState(createBusiness, initialState);
+
+  // State for form fields
+  const [businessName, setBusinessName] = useState('');
+  const [registrationNumber, setRegistrationNumber] = useState('');
+  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [address, setAddress] = useState('');
+  const [selectedCountry, setSelectedCountry] = useState('');
+  const [selectedState, setSelectedState] = useState('');
+  const [cityName, setCityName] = useState('');
+  const [streetName, setStreetName] = useState('');
+  const [businessType, setBusinessType] = useState('');
+  const [businessCategory, setBusinessCategory] = useState('');
 
   return (
     <div className="w-full max-w-3xl bg-white p-10 rounded-2xl shadow-xl">
@@ -39,6 +54,8 @@ export default function Form({
             type="text"
             placeholder="Enter your business name"
             className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-green-500 focus:border-green-500"
+            value={businessName}
+            onChange={(e) => setBusinessName(e.target.value)}
             required
           />
           {state?.errors?.businessName && (
@@ -61,6 +78,8 @@ export default function Form({
             type="text"
             placeholder="Enter your business name"
             className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-green-500 focus:border-green-500"
+            value={registrationNumber}
+            onChange={(e) => setRegistrationNumber(e.target.value)}
             required
           />
           {state?.errors?.registrationNumber && (
@@ -83,6 +102,8 @@ export default function Form({
               id="businessType"
               name="businessType"
               className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-green-500 focus:border-green-500"
+              value={businessType}
+              onChange={(e) => setBusinessType(e.target.value)}
               required
             >
               <option value="">Select Business Type</option>
@@ -110,6 +131,8 @@ export default function Form({
               name="businessCategory"
               className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-green-500 focus:border-green-500"
               required
+              value={businessCategory}
+              onChange={(e) => setBusinessCategory(e.target.value)}
             >
               <option value="">Select Category</option>
               {masterData?.BUSINESS_CATEGORY.map((item) => (
@@ -139,6 +162,8 @@ export default function Form({
             name="email"
             placeholder="Enter your email"
             className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-green-500 focus:border-green-500"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             required
           />
           {state?.errors?.email && (
@@ -161,6 +186,8 @@ export default function Form({
             rows={3}
             placeholder="Enter your business address"
             className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-green-500 focus:border-green-500"
+            value={address}
+            onChange={(e) => setAddress(e.target.value)}
           ></textarea>
           {state?.errors?.address && (
             <p className="text-red-500 text-sm">
@@ -183,6 +210,8 @@ export default function Form({
               type="tel"
               placeholder="Enter your phone number"
               className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-green-500 focus:border-green-500"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
               required
             />
             {state?.errors?.phone && (
@@ -204,6 +233,8 @@ export default function Form({
               name="password"
               placeholder="Create a password"
               className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-green-500 focus:border-green-500"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               required
             />
             {state?.errors?.password && (
@@ -227,6 +258,8 @@ export default function Form({
             type="password"
             placeholder="Confirm your password"
             className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-green-500 focus:border-green-500"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
             required
           />
           {state?.errors?.confirmPassword && (
