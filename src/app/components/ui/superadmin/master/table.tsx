@@ -1,10 +1,9 @@
 import { UpdateMaster } from './buttons';
-import { fetchMasters } from '@/app/lib/actions';
+
 import { DeleteMaster } from './buttons';
+import { MasterField } from '@/app/lib/definitions';
 
-export async function TableData() {
-  const masters = await fetchMasters();
-
+export async function TableData({ masters }: { masters: MasterField[] }) {
   return (
     <div className="bg-white rounded-lg shadow-md p-4">
       <table className="min-w-full text-left text-gray-600 border">
@@ -18,7 +17,7 @@ export async function TableData() {
         </thead>
         <tbody>
           {masters.length > 0 ? (
-            masters.map((item, index) => (
+            masters.map((item: MasterField, index: number) => (
               <tr key={item._id} className="border-b hover:bg-gray-100">
                 <td className="p-4">{index + 1}</td>
                 <td className="p-4">{item.master_name}</td>

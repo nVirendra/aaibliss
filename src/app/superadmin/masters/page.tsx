@@ -1,9 +1,23 @@
 import { CreateMaster } from '@/app/components/ui/superadmin/master/buttons';
 import Breadcrumbs from '@/app/components/ui/superadmin/modules/Breadcrumb';
-import Search from '@/app/components/ui/superadmin/modules/search';
+import SearchBar from '@/app/components/ui/superadmin/modules/search';
 import { TableData } from '@/app/components/ui/superadmin/master/table';
+import { fetchMastersBySearch } from '@/app/lib/actions';
 
-const Module = () => {
+import React from 'react';
+
+export default async function Module(props: {
+  searchParams?: Promise<{
+    query?: string;
+    page?: string;
+  }>;
+}) {
+  const searchParams = await props.searchParams;
+  const query = searchParams?.query || '';
+  const currentPage = Number(searchParams?.page) || 1;
+
+  const masters = await fetchMastersBySearch(query);
+
   return (
     <main className="p-6">
       <div className="min-h-screen bg-gray-50 p-8">
@@ -19,11 +33,9 @@ const Module = () => {
           <CreateMaster />
         </div>
 
-        <Search />
-        <TableData />
+        <SearchBar placeholder="Search masters..." />
+        <TableData masters={masters} />
       </div>
     </main>
   );
-};
-
-export default Module;
+}

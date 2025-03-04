@@ -29,6 +29,29 @@ export async function fetchModuleById(id: string) {
   }
 }
 
+export async function fetchMastersBySearch(query: string) {
+  try {
+    await db.connect();
+
+    let masters;
+
+    if (!query) {
+      // If query is empty, fetch all masters
+      masters = await Master.find({}).lean();
+    } else {
+      masters = await Master.find({
+        $or: [
+          { master_name: { $regex: query, $options: 'i' } }, // Case-insensitive search
+          { master_code: { $regex: query, $options: 'i' } },
+          { master_group: { $regex: query, $options: 'i' } },
+        ],
+      }).lean();
+    }
+
+    return JSON.parse(JSON.stringify(masters));
+  } catch (error) {}
+}
+
 export type State = {
   errors?: {
     masterName?: string[];
