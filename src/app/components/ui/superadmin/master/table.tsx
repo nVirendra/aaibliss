@@ -1,9 +1,18 @@
+import { fetchMasters } from '@/app/lib/actions';
 import { UpdateMaster } from './buttons';
 
 import { DeleteMaster } from './buttons';
 import { MasterField } from '@/app/lib/definitions';
 
-export async function TableData({ masters }: { masters: MasterField[] }) {
+export async function TableData({
+  query,
+  currentPage,
+}: {
+  query: string;
+  currentPage: number;
+}) {
+  const masters = await fetchMasters(query, currentPage);
+
   return (
     <div className="bg-white rounded-lg shadow-md p-4">
       <table className="min-w-full text-left text-gray-600 border">

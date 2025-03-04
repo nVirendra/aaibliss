@@ -2,9 +2,10 @@ import { CreateMaster } from '@/app/components/ui/superadmin/master/buttons';
 import Breadcrumbs from '@/app/components/ui/superadmin/modules/Breadcrumb';
 import SearchBar from '@/app/components/ui/superadmin/modules/search';
 import { TableData } from '@/app/components/ui/superadmin/master/table';
-import { fetchMastersBySearch } from '@/app/lib/actions';
 import { Suspense } from 'react';
 import { MastersTableSkeleton } from '@/app/components/ui/superadmin/master/MastersTableSkeleton';
+import Pagination from '@/app/components/ui/superadmin/master/pagination';
+import { fetchtMastersPages } from '@/app/lib/actions';
 
 import React from 'react';
 
@@ -18,7 +19,8 @@ export default async function Module(props: {
   const query = searchParams?.query || '';
   const currentPage = Number(searchParams?.page) || 1;
 
-  const masters = await fetchMastersBySearch(query);
+  const totalPages = await fetchtMastersPages(query);
+  console.log('total master count', totalPages);
 
   return (
     <main className="p-6">
@@ -37,8 +39,11 @@ export default async function Module(props: {
 
         <SearchBar placeholder="Search masters..." />
         <Suspense key={query + currentPage} fallback={<MastersTableSkeleton />}>
-          <TableData masters={masters} />
+          <TableData query={query} currentPage={currentPage} />
         </Suspense>
+        <div className="mt-5 flex w-full justify-center">
+          <Pagination totalPages={totalPages} />
+        </div>
       </div>
     </main>
   );

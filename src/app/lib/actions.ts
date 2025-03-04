@@ -29,15 +29,18 @@ export async function fetchModuleById(id: string) {
   }
 }
 
-export async function fetchMastersBySearch(query: string) {
+const ITEMS_PER_PAGE = 5;
+export async function fetchMasters(query: string, currentPage: number) {
   try {
+    const offset = (currentPage - 1) * ITEMS_PER_PAGE;
+
     await db.connect();
 
     let masters;
 
     if (!query) {
       // If query is empty, fetch all masters
-      masters = await Master.find({}).lean();
+      masters = await Master.find({}).skip(offset).limit(ITEMS_PER_PAGE).lean();
     } else {
       masters = await Master.find({
         $or: [
@@ -45,11 +48,26 @@ export async function fetchMastersBySearch(query: string) {
           { master_code: { $regex: query, $options: 'i' } },
           { master_group: { $regex: query, $options: 'i' } },
         ],
-      }).lean();
+      })
+        .skip(offset)
+        .limit(ITEMS_PER_PAGE)
+        .lean();
     }
 
     return JSON.parse(JSON.stringify(masters));
   } catch (error) {}
+}
+
+export async function fetchtMastersPages(query: string) {
+  try {
+    await db.connect(); // Ensure the database is connected
+    const count = await Master.countDocuments(); // Get the total count of masters
+
+    return Math.ceil(count / ITEMS_PER_PAGE);
+  } catch (error) {
+    console.error('Error fetching master count:', error);
+    return 0; // Return 0 in case of an error
+  }
 }
 
 export type State = {
