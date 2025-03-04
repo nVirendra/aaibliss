@@ -207,21 +207,6 @@ export async function createBusiness(
   }
 }
 
-export async function fetchMasters() {
-  try {
-    await db.connect();
-    const masters = await Master.find({}).lean(); // Get plain objects
-
-    return JSON.parse(JSON.stringify(masters));
-  } catch (error) {
-    return {
-      success: false,
-      message: error instanceof Error ? error.message : 'Unknown error',
-      result: null,
-    };
-  }
-}
-
 export async function fetchMasterById(id: string) {
   try {
     await db.connect();

@@ -3,6 +3,8 @@ import Breadcrumbs from '@/app/components/ui/superadmin/modules/Breadcrumb';
 import SearchBar from '@/app/components/ui/superadmin/modules/search';
 import { TableData } from '@/app/components/ui/superadmin/master/table';
 import { fetchMastersBySearch } from '@/app/lib/actions';
+import { Suspense } from 'react';
+import { MastersTableSkeleton } from '@/app/components/ui/superadmin/master/MastersTableSkeleton';
 
 import React from 'react';
 
@@ -34,7 +36,9 @@ export default async function Module(props: {
         </div>
 
         <SearchBar placeholder="Search masters..." />
-        <TableData masters={masters} />
+        <Suspense key={query + currentPage} fallback={<MastersTableSkeleton />}>
+          <TableData masters={masters} />
+        </Suspense>
       </div>
     </main>
   );
